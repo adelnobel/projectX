@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'item/index'
 
+  get 'item/add' => 'item#add', as: 'item_filldb'
+
   post 'cart/add'=> 'cart#add', as: 'cart_add'
 
   get 'cart/remove'

@@ -4,10 +4,14 @@
 <%	else %>
 	<%=	link_to 'Login', welcome_login_path%> &nbsp <%= link_to 'SignUp', welcome_signup_path%>
 <%	end%>
+<%# link_to 'fill_db' , item_filldb_path %>
 <table  style="width:50%">
   <tr>
     <td><b>Title</b></th>
     <td><b>Price</b></th> 
+    <% if session[:user_id].present? %>	
+    	<td><b>Quantity</b></th>
+    <% end %>
     <td></th>
   </tr>
   <%# render :partial => 'line_items/cart_item', :collection => @line_items %>
@@ -20,9 +24,7 @@
     <% if session[:user_id].present? %>	
 	  	<%= form_for :item_tosend,  url: cart_add_path do |f| %> <!--"http://localhost:3030/users"-->
 			 <p>
-			 	<%= f.hidden_field :id, value: item['id']%>
-			 	<%# f.hidden :item_id => item['id'] %>
-			    <%= f.label :quantity %><br>
+			 	<%= f.hidden_field :id, value: item['id']%>  
 			    <%= f.text_field :quantity %>
 			 </p>
 		  	 <td>
