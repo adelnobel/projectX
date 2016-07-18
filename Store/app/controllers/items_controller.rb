@@ -44,18 +44,22 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1.json
   def buy_item
     response = {}
-    if Item.exists?(params[:id])
+    if params[:quantity].to_i <= 0
+      response[:response] = 'Item quantity has to be a non-negative integer!'
+    elsif Item.exists?(params[:id])
       new_item = Item.find(params[:id])
-      if new_item.quantity >= params[:quantity]
+      if new_item.quantity.to_i >= params[:quantity].to_i
         new_item.quantity = new_item.quantity - params[:quantity].to_i
         response[:response] = 'Item quantity updated successfully!'
+        if !new_item.save
+          response[:response] = 'Error! Item could not be saved!'
+        end
       else
         response[:response] = 'No sufficient quantity of Item ID ' + params[:id]
       end
     else
-      response[:response] = 'Item ID ' + params[:id] + ' is not found.'
+      response[:response] = 'Item ID ' + params[:id] + ' is not found!'
     end
-    new_item.save!
     render :json => response.to_json
   end
   # def update
