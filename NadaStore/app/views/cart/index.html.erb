@@ -1,0 +1,18 @@
+<h1>Welcome to NaDa _StoRe</h1>
+Here is your cart :)</br>
+<table  style="width:50%">
+  <tr>
+    <td><b>Title</b></th>
+    <td><b>Price</b></th> 
+  </tr>
+  <%# render :partial => 'line_items/cart_item', :collection => @line_items %>
+  <% @items.each do |item|%>
+  <tr>
+    <td><%= item['item_id'] %></td>
+    <td><%= item['quantity'] %></td>
+  	</th>
+  </tr>
+  <%end%>
+</table>
+<%= link_to 'back', welcome_index_path%>
+</br> 

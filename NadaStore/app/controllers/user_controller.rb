@@ -8,15 +8,17 @@ class UserController < ApplicationController
     payload_json = payload.to_json   
   	res_json = RestClient.post 'http://localhost:3030/users', payload_json, :content_type => 'application/json'
 	  puts "res_json", res_json
-    @res = JSON.parse(res_json)
+    res = JSON.parse(res_json)
     puts "res", res
-    # if #YESS
-      # session[:user_id] = authorized_user.id
-  	  # @response = "user has been created successfully!!"
-    # else
-      # @response ="Unfortunately, there is something wrong" 
-	  # end
-  ##redirect_to welcome_signup_path
+    if res.has_key?("id")
+      session[:user_id] = res["id"]
+      session[:user_name] = res["name"]
+  	  @response = "User has been created successfully!!"
+      @user_id = res["id"]
+    else
+      @response ="Unfortunately, there is something wrong" 
+	  end
+    ##redirect_to welcome_signup_path
   end
 
   def encrypt_password ( passo ) 
@@ -33,11 +35,19 @@ class UserController < ApplicationController
     res = JSON.parse(res_json) 
     puts res.has_key?("id").to_s
     if res.has_key?("id") #YESS
-      # session[:user_id] = authorized_user.id
+      session[:user_id] = res["id"]
+      session[:user_name] = res["name"]
       @response = "You are logged in successfully!!"
     else
       @response ="Unfortunately, there is something wrong" 
     end
   end
+
+  def logout
+    session[:user_id] = nil
+    session[:user_name] = nil
+    redirect_to welcome_index_path
+  end
+
 end
 # 1.6.1  # RestClient.post 'http://example.com/resource', 'the post body', :content_type => 'text/plain'

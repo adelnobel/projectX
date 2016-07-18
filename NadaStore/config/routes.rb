@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'cart/add'
+
+  get 'cart/remove'
+
+  get 'cart/update'
+
+  get 'cart/index' => 'cart#index', as: 'cart_index'
+
   # get 'user/create'
 
   # get 'user/login'
@@ -12,6 +20,8 @@ Rails.application.routes.draw do
   post 'user/create' => 'user#create', as: 'user_create'
 
   post 'user/login' => 'user#login', as: 'user_login'
+
+  get 'user/logout' => 'user#logout', as: 'user_logout'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

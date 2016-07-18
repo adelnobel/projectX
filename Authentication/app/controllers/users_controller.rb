@@ -28,7 +28,7 @@ class UsersController < ApplicationController
       if user
         tempUser = User.where(username: params[:user][:username]).first
         id = tempUser[:id]
-        reto = {:id => id}
+        reto = {:id => id, :name => tempUser[:username]}
         # format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :json => reto }
       else
@@ -45,11 +45,13 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        reto = {:id => @user[:id], :name => @user[:username]}
         # format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user}
+        format.json { render :json => reto}
       else
+        reto = {}
         # format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render :json => reto}
       end
     end
   end
