@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   #   put "items/:id" => "items#update"
   #   delete "items/:id" => "items#destroy"
   # end
+  get '/deleteAll' => 'items#delete_all'
   
   put '/:id/:quantity' => 'items#buy_item'
   

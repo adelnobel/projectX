@@ -62,6 +62,16 @@ class ItemsController < ApplicationController
     end
     render :json => response.to_json
   end
+
+  # def get_item_price
+  #   response = {}
+  #   if Item.exists?(params[:id])
+  #     response[:price] = Item.find(params[:id]).price
+  #   else
+  #     response[:response] = 'Item ID ' + params[:id] + ' is not found!'
+  #   end
+  # end
+
   # def update
   #   respond_to do |format|
   #     if @item.update(item_params)
@@ -74,16 +84,25 @@ class ItemsController < ApplicationController
   #   end
   # end
 
-  # DELETE /items/1
-  # DELETE /items/1.json
+  # # DELETE /items/1
+  # # DELETE /items/1.json
   # def destroy
   #   @item.destroy
   #   respond_to do |format|
-  #     # format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
+  #     format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
   #     format.json { head :no_content }
   #   end
   # end
-
+  def delete_all
+    items = Item.all
+    items.each do |item|
+      item.destroy
+    end
+    respond_to do |format|
+      format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
+      # format.json {head :no_content}
+    end
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_item

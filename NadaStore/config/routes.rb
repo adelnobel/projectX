@@ -4,7 +4,9 @@ Rails.application.routes.draw do
 
   post 'item/:item_id' => 'item#submit_review'
 
-  get 'cart/add'
+  get 'item/add' => 'item#add', as: 'item_filldb'
+
+  post 'cart/add'=> 'cart#add', as: 'cart_add'
 
   get 'cart/remove'
 
