@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  get 'item/index'
+
+  get 'item/:item_id' => 'item#index', as: 'item_index'
+
+  post 'item/:item_id' => 'item#submit_review'
 
   get 'cart/add'
 

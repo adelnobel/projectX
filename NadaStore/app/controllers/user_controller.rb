@@ -5,8 +5,8 @@ class UserController < ApplicationController
                 :firstname => params[:user][:firstname].to_s, :email => params[:user][:email].to_s,
                 :lastname => params[:user][:lastname].to_s,
               }
-    payload_json = payload.to_json   
-  	res_json = RestClient.post 'http://localhost:3030/users', payload_json, :content_type => 'application/json'
+    payload_json = payload.to_json
+  	res_json = RestClient.post ApplicationController::AUTHENTICATION_URL + 'users', payload_json, :content_type => 'application/json'
     res = JSON.parse(res_json)
     puts "res", res
     ####for the store
@@ -36,7 +36,7 @@ class UserController < ApplicationController
     @tempo = encrypt_password ( params[:user][:password].to_s )  
     payload = {:username => params[:user][:username].to_s, :password => @tempo.to_s} 
     payload_json = payload.to_json 
-  	res_json = RestClient.post 'http://localhost:3030/users/login', payload_json, :content_type => 'application/json'	
+  	res_json = RestClient.post ApplicationController::AUTHENTICATION_URL + 'users/login', payload_json, :content_type => 'application/json'	
     puts "res_json", res_json
     res = JSON.parse(res_json) 
     puts res.has_key?("id").to_s

@@ -3,7 +3,7 @@ class CartController < ApplicationController
   	payload = params 
     payload_json = payload.to_json
     puts "payload", payload["id"]
-    str =  'http://localhost:3040/'+ session[:user_id].to_s + '/' + payload[:id].to_s + '/' + payload[:quantity].to_s + '/'
+    str = ApplicationController::CART_URL + session[:user_id].to_s + '/' + payload[:id].to_s + '/' + payload[:quantity].to_s + '/'
     puts 'str' , str
   	res_json = RestClient.put str, :content_type => 'application/json'	
   end
@@ -16,7 +16,7 @@ class CartController < ApplicationController
   end
 
   def index
-  	str =  'http://localhost:3040/'+ session[:user_id].to_s 
+  	str = ApplicationController::CART_URL + session[:user_id].to_s 
     puts 'str' , str
   	res_json = RestClient.get str, :content_type => 'application/json'
   	puts res_json
