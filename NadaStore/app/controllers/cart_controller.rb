@@ -1,6 +1,7 @@
 class CartController < ApplicationController
   def add
-  	payload = params 
+  	payload = params['item_tosend']
+  	puts "payload" , payload , "."  
     payload_json = payload.to_json
     puts "payload", payload["id"]
     str =  'http://localhost:3040/'+ session[:user_id].to_s + '/' + payload[:id].to_s + '/' + payload[:quantity].to_s + '/'

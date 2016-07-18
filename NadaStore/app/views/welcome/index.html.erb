@@ -15,11 +15,23 @@
   <tr>
     <td><%= link_to item['title'].to_s , item_index_path(item) %></td>
     <td><%= item['price'] %></td> 
-  	<td><%= link_to "Add to cart", cart_add_path(item), :method=> :post %>
-  		<%# link_to 'Add to cart', cart_add_path %>
+  	
+    <td>
+    <% if session[:user_id].present? %>	
+	  	<%= form_for :item_tosend,  url: cart_add_path do |f| %> <!--"http://localhost:3030/users"-->
+			 <p>
+			 	<%= f.hidden_field :id, value: item['id']%>
+			 	<%# f.hidden :item_id => item['id'] %>
+			    <%= f.label :quantity %><br>
+			    <%= f.text_field :quantity %>
+			 </p>
+		  	 <td>
+		  	 	<%= f.submit "Add to cart"%>
+		  	 	<%# link_to "Add to cart", cart_add_path(item), :method=> :post %><%# link_to 'Add to cart', cart_add_path %>
+	  	<%end%>
+	<%end%>
   	</th>
   </tr>
   <%end%>
 </table>
-
 </br> 

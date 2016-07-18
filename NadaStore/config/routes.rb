@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'item/index'
 
-  get 'cart/add'
+  post 'cart/add'=> 'cart#add', as: 'cart_add'
 
   get 'cart/remove'
 
