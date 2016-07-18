@@ -1,12 +1,14 @@
 <h1>Item: <b><%= @item['title'] %> </b> </h1></br>
 <h1>Price: <b><%= @item['price'] %> </b> </h1></br> 
 
+<% if @is_user_signed %>
 <h1>Place a review</h1>
 
 <%= form_for :review do |f| %>
   Rating: <%= f.select :rating, ['1', '2', '3', '4', '5']%> </br>
   Comment: <%= f.text_area :body %> </br>
   <%= f.submit %>
+<% end %>
 <% end %>
 
 <h1>Reviews</h1>

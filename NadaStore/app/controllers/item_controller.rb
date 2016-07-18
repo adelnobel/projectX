@@ -1,6 +1,7 @@
 class ItemController < ApplicationController
   
   def index
+    @is_user_signed = session['user_id'].present?
     res_json = RestClient.get STORE_URL + 'items/' + params["item_id"] , :content_type => 'application/json'
     @item = JSON.parse(res_json)
 
@@ -10,10 +11,14 @@ class ItemController < ApplicationController
   end
 
   def submit_review
-    request_uri = REVIEW_URL + params['item_id'] + '/' + session['user_id'].to_s + '/' \
-      + params['review']['rating'] + '/' + params['review']['body']
+    @is_user_signed = session['user_id'].present?
+    if @is_user_signed
+      request_uri = REVIEW_URL + params['item_id'] + '/' + session['user_id'].to_s + '/' \
+        + params['review']['rating'] + '/' + params['review']['body']
 
-    RestClient.post URI.escape(request_uri) , :content_type => 'application/json'
+      RestClient.post URI.escape(request_uri) , :content_type => 'application/json'
+    end
+
     redirect_to item_index_path(params['item_id'])
   end
 
