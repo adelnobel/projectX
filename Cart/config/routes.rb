@@ -1,13 +1,12 @@
 Rails.application.routes.draw do
 
+  put '/:user_id/:item_id/:quantity' => 'api#update_item'
 
-  post 'RemoveItem' => 'cart_operations#remove_item'
+  delete '/:user_id/:item_id' => 'api#remove_item'
 
-  post 'UpdateItem' => 'cart_operations#update_item' 
+  get '/:user_id' => 'api#get_cart'
 
-  post 'GetCart' => 'cart_operations#get_cart'
-
-  post 'EmptyCart' => 'cart_operations#empty_cart'
+  delete '/:user_id' => 'api#empty_cart'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
