@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  post 'AddReview' => 'api#add_review'
+  post '/:item_id/:user_id/:rating/:body' => 'api#add_review'
 
-  post 'GetReviews' => 'api#get_reviews' 
+  get '/:item_id' => 'api#get_reviews' 
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
