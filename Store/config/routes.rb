@@ -1,8 +1,18 @@
 Rails.application.routes.draw do
+
+  # namespace :api, :defaults => {:format => :json} do 
+  #   get "items" => "items#index"
+  #   post "items" => "items#create"
+  #   get "items/:id" => "items#show"
+  #   put "items/:id" => "items#update"
+  #   delete "items/:id" => "items#destroy"
+  # end
+  
+  put '/:id/:quantity' => 'api#update'
   
   resources :items
 
-  get 'items' => 'items#index'
+  #get 'items' => 'items#index'
   
   
 

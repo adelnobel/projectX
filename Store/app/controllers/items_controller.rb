@@ -1,15 +1,18 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token
 
   # GET /items
   # GET /items.json
   def index
     @items = Item.all
+    render :json => @items, status: :ok
   end
 
   # GET /items/1
   # GET /items/1.json
   def show
+    render :json => @item.to_json
   end
 
   # GET /items/new
@@ -39,27 +42,43 @@ class ItemsController < ApplicationController
 
   # PATCH/PUT /items/1
   # PATCH/PUT /items/1.json
-  def update
-    respond_to do |format|
-      if @item.update(item_params)
-        format.html { redirect_to @item, notice: 'Item was successfully updated.' }
-        format.json { render :show, status: :ok, location: @item }
+  def buy_item
+    response = {}
+    if Item.exists?(params[:id])
+      new_item = Item.find(params[:id])
+      if new_item.quantity >= params[:quantity]
+        new_item.quantity = new_item.quantity - params[:quantity].to_i
+        response[:response] = 'Item quantity updated successfully!'
       else
-        format.html { render :edit }
-        format.json { render json: @item.errors, status: :unprocessable_entity }
+        response[:response] = 'No sufficient quantity of Item ID ' + params[:id]
       end
+    else
+      response[:response] = 'Item ID ' + params[:id] + ' is not found.'
     end
+    new_item.save!
+    render :json => response.to_json
   end
+  # def update
+  #   respond_to do |format|
+  #     if @item.update(item_params)
+  #       #format.html { redirect_to @item, notice: 'Item was successfully updated.' }
+  #       format.json { render :show, status: :ok, location: @item }
+  #     else
+  #       #format.html { render :edit }
+  #       format.json { render json: @item.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /items/1
   # DELETE /items/1.json
-  def destroy
-    @item.destroy
-    respond_to do |format|
-      format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+  #   @item.destroy
+  #   respond_to do |format|
+  #     # format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
