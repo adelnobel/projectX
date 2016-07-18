@@ -62,6 +62,16 @@ class ItemsController < ApplicationController
     end
     render :json => response.to_json
   end
+
+  # def get_item_price
+  #   response = {}
+  #   if Item.exists?(params[:id])
+  #     response[:price] = Item.find(params[:id]).price
+  #   else
+  #     response[:response] = 'Item ID ' + params[:id] + ' is not found!'
+  #   end
+  # end
+
   # def update
   #   respond_to do |format|
   #     if @item.update(item_params)
