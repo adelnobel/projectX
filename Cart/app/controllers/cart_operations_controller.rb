@@ -5,7 +5,7 @@ class CartOperationsController < ApplicationController
   def remove_item
   	require 'json'
   	response = {}
-  	if params.has_key?(:user_id) && params.has_key?(:item_id)
+  	if [:user_id, :item_id].all? {|s| params.has_key? s}
   		UserItem.where({:user_id => params[:user_id], :item_id => params[:item_id]}).destroy_all
   		response[:response] = 'Success'
   	else 
@@ -17,7 +17,7 @@ class CartOperationsController < ApplicationController
   def update_item
 	  require 'json'
   	response = {}
-  	if params.has_key?(:user_id) && params.has_key?(:item_id) && params.has_key?(:quantity)
+  	if [:user_id, :item_id, :quantity].all? {|s| params.has_key? s}
   		user_item = UserItem.find_or_create_by!({:user_id => params[:user_id], :item_id => params[:item_id]})
   		user_item.quantity = params[:quantity].to_i
   		user_item.save!
