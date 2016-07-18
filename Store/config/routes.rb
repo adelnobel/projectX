@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   #   delete "items/:id" => "items#destroy"
   # end
   
-  put '/:id/:quantity' => 'api#update'
+  put '/:id/:quantity' => 'items#buy_item'
   
   resources :items
 

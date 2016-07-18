@@ -46,7 +46,7 @@ class ItemsController < ApplicationController
     response = {}
     if Item.exists?(params[:id])
       new_item = Item.find(params[:id])
-      if new_item.quantity >= params[:quantity]
+      if new_item.quantity.to_i >= params[:quantity].to_i
         new_item.quantity = new_item.quantity - params[:quantity].to_i
         response[:response] = 'Item quantity updated successfully!'
       else
