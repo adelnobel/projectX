@@ -7,18 +7,24 @@ class UserController < ApplicationController
               }
     payload_json = payload.to_json   
   	res_json = RestClient.post 'http://localhost:3030/users', payload_json, :content_type => 'application/json'
-	  puts "res_json", res_json
     res = JSON.parse(res_json)
     puts "res", res
+    ####for the store
+    # payload = {:balance => 
+    #           }
+    # payload_json = payload.to_json   
+    # res_json = RestClient.post 'http://localhost:3030/users', payload_json, :content_type => 'application/json'
+    # res = JSON.parse(res_json)
+    # puts "res", res
     if res.has_key?("id")
       session[:user_id] = res["id"]
       session[:user_name] = res["name"]
   	  @response = "User has been created successfully!!"
       @user_id = res["id"]
+      redirect_to welcome_index_path
     else
       @response ="Unfortunately, there is something wrong" 
-	  end
-    ##redirect_to welcome_signup_path
+    end
   end
 
   def encrypt_password ( passo ) 
@@ -38,6 +44,7 @@ class UserController < ApplicationController
       session[:user_id] = res["id"]
       session[:user_name] = res["name"]
       @response = "You are logged in successfully!!"
+      redirect_to welcome_index_path
     else
       @response ="Unfortunately, there is something wrong" 
     end

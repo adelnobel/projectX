@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'item/index'
+
   get 'cart/add'
 
   get 'cart/remove'
