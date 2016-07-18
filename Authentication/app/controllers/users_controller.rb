@@ -19,18 +19,22 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-  end
+  end 
 
   def login_attempt
-    user = User.exists?(username: params[:user][:username], password: params[:user][:password])
+    user = User.exists?(username: params[:user][:username],password: params[:user][:password]) 
     respond_to do |format|
       # format.json {  render :json => @authorized_user}
       if user
+        tempUser = User.where(username: params[:user][:username]).first
+        id = tempUser[:id]
+        reto = {:id => id}
         # format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render json: user }
+        format.json { render :json => reto }
       else
         # format.html { render :new }
-        format.json { render json: user }
+        reto = {}
+        format.json { render :json => reto }
       end
     end
   end
