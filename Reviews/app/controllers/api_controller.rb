@@ -2,6 +2,8 @@ class ApiController < ApplicationController
 
   skip_before_action :verify_authenticity_token
 
+  API_URL = "http://localhost:3050/"
+
   def add_review
     response = {}
     user_item = Review.find_or_create_by!({:user_id => params[:user_id], :item_id => params[:item_id]})
