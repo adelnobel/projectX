@@ -11,6 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160717154601) do
+ActiveRecord::Schema.define(version: 20160718090715) do
+
+  create_table "balances", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "credit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end

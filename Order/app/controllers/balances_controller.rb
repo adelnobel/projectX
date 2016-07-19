@@ -2,12 +2,12 @@ class BalancesController < ApplicationController
   before_action :set_balance, only: [:show, :edit, :update, :destroy]
 
 
-
   # POST /checkout
   def checkBalance?(prices,id) 
 
     tot=0
-      prices.each do |price|
+    
+    prices.each do |price|
       tot += price
     end
 
@@ -15,10 +15,6 @@ class BalancesController < ApplicationController
     if(tot<=balance.credit)return true
     return false
   end
-
-
-  
-
 
 
   # GET /balances

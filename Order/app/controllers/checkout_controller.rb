@@ -1,17 +1,21 @@
 class CheckoutController < ApplicationController
 	
+
+	#items ids, quantities
+
   
 	# POST /checkout
-	def checkout!(items_id,id) 
+	def checkout!(requested_items,id) 
 	
-		items = validItems(items_id) #ask Store
-		prices =  totalPrice(items_id)#ask store
+		available_items = validItems(requested_items) #ask Store
+		prices =  totalPrice(available_items)#ask store
 
 		canPurchase=checkBalance?(prices,id) 
 
 		if canPurchase
 			print_successfull_transaction(items)
-			updateItems(items)#from store
+			buy_item
+			tems(items)#from store
 		else
 		 	print_failed_transaction()
 		end
