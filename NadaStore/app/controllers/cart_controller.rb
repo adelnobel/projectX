@@ -1,10 +1,10 @@
 class CartController < ApplicationController
   def add
-  	payload = params 
+  	payload = params['item_tosend']
+  	# puts "payload" , payload , "."  
     payload_json = payload.to_json
     puts "payload", payload["id"]
-    str =  'http://localhost:3040/'+ session[:user_id].to_s + '/' + payload[:id].to_s + '/' + payload[:quantity].to_s + '/'
-    puts 'str' , str
+    str = ApplicationController::CART_URL + session[:user_id].to_s + '/' + payload[:id].to_s + '/' + payload[:quantity].to_s + '/'
   	res_json = RestClient.put str, :content_type => 'application/json'	
   end
 
@@ -12,10 +12,11 @@ class CartController < ApplicationController
   end
 
   def update
+  	######
   end
 
   def index
-  	str =  'http://localhost:3040/'+ session[:user_id].to_s 
+  	str = ApplicationController::CART_URL + session[:user_id].to_s 
     puts 'str' , str
   	res_json = RestClient.get str, :content_type => 'application/json'
   	puts res_json

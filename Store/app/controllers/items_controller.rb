@@ -31,10 +31,10 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to @item, notice: 'Item was successfully created.' }
+        # format.html { redirect_to @item, notice: 'Item was successfully created.' }
         format.json { render :show, status: :created, location: @item }
       else
-        format.html { render :new }
+        # format.html { render :new }
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
     end
@@ -44,20 +44,34 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1.json
   def buy_item
     response = {}
-    if Item.exists?(params[:id])
+    if params[:quantity].to_i <= 0
+      response[:response] = 'Item quantity has to be a non-negative integer!'
+    elsif Item.exists?(params[:id])
       new_item = Item.find(params[:id])
-      if new_item.quantity >= params[:quantity]
+      if new_item.quantity.to_i >= params[:quantity].to_i
         new_item.quantity = new_item.quantity - params[:quantity].to_i
         response[:response] = 'Item quantity updated successfully!'
+        if !new_item.save
+          response[:response] = 'Error! Item could not be saved!'
+        end
       else
         response[:response] = 'No sufficient quantity of Item ID ' + params[:id]
       end
     else
-      response[:response] = 'Item ID ' + params[:id] + ' is not found.'
+      response[:response] = 'Item ID ' + params[:id] + ' is not found!'
     end
-    new_item.save!
     render :json => response.to_json
   end
+
+  # def get_item_price
+  #   response = {}
+  #   if Item.exists?(params[:id])
+  #     response[:price] = Item.find(params[:id]).price
+  #   else
+  #     response[:response] = 'Item ID ' + params[:id] + ' is not found!'
+  #   end
+  # end
+
   # def update
   #   respond_to do |format|
   #     if @item.update(item_params)
@@ -70,16 +84,25 @@ class ItemsController < ApplicationController
   #   end
   # end
 
-  # DELETE /items/1
-  # DELETE /items/1.json
+  # # DELETE /items/1
+  # # DELETE /items/1.json
   # def destroy
   #   @item.destroy
   #   respond_to do |format|
-  #     # format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
+  #     format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
   #     format.json { head :no_content }
   #   end
   # end
-
+  def delete_all
+    items = Item.all
+    items.each do |item|
+      item.destroy
+    end
+    respond_to do |format|
+      format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
+      # format.json {head :no_content}
+    end
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_item

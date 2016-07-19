@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  get 'cart/add'
+
+  get 'item/:item_id' => 'item#index', as: 'item_index'
+
+  post 'item/:item_id' => 'item#submit_review'
+
+  get 'item/add' => 'item#add', as: 'item_filldb'
+
+  post 'cart/add'=> 'cart#add', as: 'cart_add'
 
   get 'cart/remove'
 

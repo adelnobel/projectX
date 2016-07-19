@@ -2,8 +2,6 @@ class ApiController < ApplicationController
   
   skip_before_action :verify_authenticity_token
 
-  API_URL = "http://localhost:3040/"
-
   def remove_item
     response = {}
     UserItem.where({:user_id => params[:user_id], :item_id => params[:item_id]}).destroy_all
